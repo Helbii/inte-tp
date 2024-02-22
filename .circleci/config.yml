@@ -1,24 +1,29 @@
 version: 2.1
 
 jobs:
-  build-and-run:
+  build-and-test:
     docker:
-      - image: docker:19.03.12
+      - image: cimg/node:14.17.0
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.12
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Run Tests
+          command: npm test
       - run:
           name: Build Docker Image
-          command: |
-            docker build -t node-app  .
+          command: docker build -t helbiii/cicletp:${CIRCLE_SHA1} .
+      - setup_remote_docker
       - run:
-          name: Run Docker Container
+          name: Push to Docker Hub
           command: |
-            docker run -d -p 8080:8080 node-app
+            echo "$token_hub" | docker login -u "user_hub" --password-stdin
+            docker push helbiii/cicletp:${CIRCLE_SHA1}
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-deploy:
     jobs:
-      - build-and-run
+      - build-and-test
