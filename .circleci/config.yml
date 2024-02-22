@@ -16,3 +16,9 @@ jobs:
           name: Run Docker Container
           command: |
             docker run -d -p 8080:8080 node-app
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-run
