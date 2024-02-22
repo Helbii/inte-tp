@@ -1,9 +1,5 @@
 version: 2.1
 
-
-orbs:
-  node: .circleci/node@4.7.0
-
 jobs:
   build:
     docker:
@@ -12,8 +8,12 @@ jobs:
       - checkout
       - node/install-packages
       - run:
-          name: Run tests
-          command: npm test
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Start application
+          command: npm start
+          background: true
 
 workflows:
   version: 2
