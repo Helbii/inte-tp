@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Push to Docker Hub
           command: |
-            echo "$token_hub" | docker login -u "user_hub" --password-stdin
+            echo "$token_hub" | docker login -u "$user_hub" --password-stdin
             docker push helbiii/cicletp:${CIRCLE_SHA1}
 
 workflows:
