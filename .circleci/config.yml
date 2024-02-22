@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t node-app .
+            docker build -t node-app -f node-js-sample-master/Dockerfile .
       - run:
           name: Run Docker Container
           command: |
