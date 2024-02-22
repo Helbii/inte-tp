@@ -1,22 +1,18 @@
 version: 2.1
 
 jobs:
-  build:
+  build-and-run:
     docker:
-      - image: cimg/node:14.17.0
+      - image: docker:19.03.12
     steps:
       - checkout
-      - node/install-packages
+      - setup_remote_docker:
+          version: 19.03.12
       - run:
-          name: Install dependencies
-          command: npm install
+          name: Build Docker Image
+          command: |
+            docker build -t node-app .
       - run:
-          name: Start application
-          command: npm start
-          background: true
-
-workflows:
-  version: 2
-  build:
-    jobs:
-      - build
+          name: Run Docker Container
+          command: |
+            docker run -d -p 8080:8080 node-app
